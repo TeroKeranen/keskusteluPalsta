@@ -80,9 +80,15 @@ app.get("/home", (req, res) => {
 
   if (!isLogged) {
     res.redirect("/");
+  } else {
+    Post.find()
+      .then((result) => {
+        res.render("home", { title: "Home", logged: true, post: result });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
-  res.render("home", { title: "Home", logged: true });
 });
 
 app.get("/register", (req, res) => {
@@ -152,6 +158,7 @@ app.post("/createpost", (req, res) => {
   const postTitle = req.body.title; // get post title
   const postContent = req.body.body; // get post content
 
+  // creae new Post and take information that it needs
   const newPost = new Post({
     id: req.user.id, // give post id same as user id
     username: req.user.username,
@@ -159,6 +166,8 @@ app.post("/createpost", (req, res) => {
     content: postContent,
     date: getDate(),
   });
+
+  //save newpost to Posts databae
   newPost
     .save()
     .then((result) => {
