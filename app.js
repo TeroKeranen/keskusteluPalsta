@@ -72,7 +72,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/home", (req, res) => {
-  res.render("home", { title: "Home" });
+  res.render("home", { title: "Home", logged: true });
 });
 
 app.get("/register", (req, res) => {
@@ -107,7 +107,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render("login", { title: "Login" });
+  res.render("login", { title: "Login", logged: false });
 });
 
 app.post(
@@ -117,6 +117,15 @@ app.post(
     failureRedirect: "/login?error=true",
   })
 );
+
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+  });
+  res.redirect("/");
+});
 
 app.listen(3000, function () {
   console.log("server start on port 3000");
