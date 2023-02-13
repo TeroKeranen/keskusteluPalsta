@@ -17,8 +17,14 @@
       </div>
     </div>
     <ul class="links">
+      <% if(!logged) { %>
       <li><a href="/login">login</a></li>
       <li><a href="/register">register</a></li>
+
+      <%} else { %>
+      <li><a href="/home">Home</a></li>
+      <li><a href="/logout">Logout</a></li>
+      <%} %>
     </ul>
   </div>
 </nav>

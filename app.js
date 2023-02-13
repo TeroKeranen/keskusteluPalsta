@@ -62,15 +62,21 @@ passport.use(
 );
 
 app.get("/", (req, res) => {
-  res.render("index");
+  // Check if user is logged in
+  const isLogged = req.isAuthenticated();
+
+  if (!isLogged) {
+    res.render("index", { title: "Welcome page", logged: false });
+  }
+  res.render("index", { title: "Welcome page", logged: true });
 });
 
 app.get("/home", (req, res) => {
-  res.render("home");
+  res.render("home", { title: "Home" });
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  res.render("register", { title: "Register" });
 });
 
 app.post("/register", async (req, res) => {
@@ -101,7 +107,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login", { title: "Login" });
 });
 
 app.post(
