@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
+const localStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const passport = require("passport");
 const User = require("./models/user");
@@ -37,8 +38,35 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+passport.use(
+  new localStrategy(function (username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false, { message: "incorrect username" });
+      }
+
+      bcrypt.compare(password, user.password, function (err, res) {
+        if (err) return done(err);
+
+        if (res === false) {
+          return done(null, false, { message: "incorrect password." });
+        }
+
+        return done(null, user);
+      });
+    });
+  })
+);
+
 app.get("/", (req, res) => {
   res.render("index");
+});
+
+app.get("/home", (req, res) => {
+  res.render("home");
 });
 
 app.get("/register", (req, res) => {
@@ -75,6 +103,14 @@ app.post("/register", async (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login");
 });
+
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/home",
+    failureRedirect: "/login?error=true",
+  })
+);
 
 app.listen(3000, function () {
   console.log("server start on port 3000");
