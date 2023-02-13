@@ -6,6 +6,8 @@ const localStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const passport = require("passport");
 const User = require("./models/user");
+const Post = require("./models/post");
+const { getDate } = require("./func.js");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -67,11 +69,19 @@ app.get("/", (req, res) => {
 
   if (!isLogged) {
     res.render("index", { title: "Welcome page", logged: false });
+  } else {
+    res.render("index", { title: "Welcome page", logged: true });
   }
-  res.render("index", { title: "Welcome page", logged: true });
 });
 
 app.get("/home", (req, res) => {
+  // check if user is logged in
+  const isLogged = req.isAuthenticated();
+
+  if (!isLogged) {
+    res.redirect("/");
+  }
+
   res.render("home", { title: "Home", logged: true });
 });
 
@@ -125,6 +135,36 @@ app.get("/logout", (req, res) => {
     }
   });
   res.redirect("/");
+});
+
+app.get("/createpost", (req, res) => {
+  // check if user is logged in
+  const isLogged = req.isAuthenticated();
+
+  if (!isLogged) {
+    res.redirect("/");
+  } else {
+    res.render("createpost", { title: "Create", logged: true });
+  }
+});
+
+app.post("/createpost", (req, res) => {
+  const postTitle = req.body.title; // get post title
+  const postContent = req.body.body; // get post content
+
+  const newPost = new Post({
+    id: req.user.id, // give post id same as user id
+    username: req.user.username,
+    title: postTitle,
+    content: postContent,
+    date: getDate(),
+  });
+  newPost
+    .save()
+    .then((result) => {
+      res.redirect("/home");
+    })
+    .catch((err) => console.log(err));
 });
 
 app.listen(3000, function () {
