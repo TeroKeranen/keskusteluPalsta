@@ -1,10 +1,29 @@
 const express = require("express");
-
+const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const passport = require("passport");
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.use(
+  session({
+    secret: process.env.sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// passport initialize middleware
+app.use(passport.initialize());
+//
+// passport session middleware
+app.use(passport.session());
+
+//Mongoose connect
 
 app.get("/", (req, res) => {
   res.render("index");
