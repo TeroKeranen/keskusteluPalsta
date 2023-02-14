@@ -5,11 +5,9 @@
     <%- include('./partials/nav.ejs') %>
 
     <main class="details-main">
-      <h1>Tähän jotain</h1>
-
       <div class="details">
         <div class="name-date">
-          <p><%= post.username %></p>
+          <p>Created by <%= post.username %></p>
           <p><%= post.date %></p>
           <% if (createrId === userId) { %>
 

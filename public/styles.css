@@ -3,10 +3,13 @@
   margin: 0;
   box-sizing: border-box;
 }
+body {
+  background-image: linear-gradient(to right, rgb(29, 28, 28), #393264);
+}
 
 nav {
-  color: rgb(2, 2, 2);
-  background: rgb(253, 251, 251);
+  color: rgb(7, 7, 7);
+  background: white;
 }
 
 .nav-header {
@@ -21,7 +24,8 @@ nav {
 .logo a {
   font-size: 1.4rem;
   letter-spacing: 4px;
-  color: black;
+  color: rgb(5, 5, 5);
+  text-decoration: none;
 }
 
 .nav-toggle {
@@ -38,9 +42,10 @@ nav {
   background: rgb(8, 8, 8);
 }
 .links a {
-  color: rgb(3, 3, 3);
+  color: rgb(8, 8, 8);
   font-size: 1.5rem;
   text-transform: capitalize;
+  text-decoration: none;
   display: block;
   padding: 0.5rem 1rem;
 }
@@ -49,6 +54,7 @@ nav {
   height: 0;
   overflow: hidden;
   transition: all 0.3s linear;
+  list-style: none;
 }
 
 .show-links {
@@ -101,12 +107,52 @@ nav {
 
 /* 
 /////////////////////////////////////////
+//////// Login and register page ///////
+///////////////////////////////////////
+*/
+.form-text {
+  color: white;
+  text-align: center;
+  margin: 30px 0;
+}
+.form-section {
+  color: rgb(8, 8, 8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 90%;
+
+  margin: 0 auto;
+  background-color: rgb(245, 242, 237);
+  border-radius: 10px;
+}
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-section form button {
+  cursor: pointer;
+  background: rgb(68, 68, 68);
+  color: white;
+  border-radius: 3px;
+  text-align: center;
+  margin-top: 5px;
+  padding: 0.5rem;
+}
+/* 
+/////////////////////////////////////////
 ////////      Home page ///////////////
 ///////////////////////////////////////
 */
 .text {
   text-align: center;
   margin-top: 30px;
+  color: white;
 }
 .post-page {
   text-align: center;
@@ -121,7 +167,7 @@ nav {
   margin: 10px auto 150px;
 }
 .single-post {
-  background-color: antiquewhite;
+  color: white;
   border-radius: 10px;
   margin: 5px;
   height: 200px;
@@ -129,22 +175,69 @@ nav {
 
 .name-date {
   width: 100%;
-  background-color: beige;
+  background-color: rgb(49, 49, 47);
+  color: white;
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-around;
   padding: 1rem;
 }
 
 .post {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  text-align: left;
+  background-color: rgb(245, 242, 237);
+  color: black;
+
   padding: 1rem;
 }
 .post p {
   margin: 10px 0;
+  width: 80%;
+}
+.post a {
+  text-decoration: none;
+}
+
+/* 
+///////////////////////////
+//// createpost page /////
+//////////////////////////
+*/
+.create-content {
+  text-align: center;
+  width: 90%;
+  margin: 20px auto;
+  color: white;
+  font-size: 2rem;
+}
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgb(245, 242, 237);
+  border-radius: 10px;
+  width: 90%;
+  padding: 3rem 1rem;
+}
+.form-container form textarea {
+  width: 96%;
+}
+
+.form-container form button {
+  margin-top: 10px;
+  color: white;
+  background-color: rgb(54, 54, 54);
+  padding: 0.5rem;
 }
 
 /* 
@@ -152,9 +245,21 @@ nav {
 //// postdetails page /////
 //////////////////////////
 */
-
+.details-main {
+  margin-top: 10%;
+}
+.details {
+  margin: 0 auto;
+  width: 99%;
+  background-color: antiquewhite;
+}
 .delete-post {
   cursor: pointer;
+  background: rgb(68, 68, 68);
+  color: white;
+  border-radius: 3px;
+  text-align: center;
+  padding: 0.5rem;
 }
 @media screen and (min-width: 785px) {
   .nav-center {
@@ -235,6 +340,24 @@ nav {
   .posts-container {
     grid-template-columns: 30% 30% 30%;
 
+    width: 60%;
+  }
+
+  /* 
+  /////////////////////////////////////////
+  ////////  login and registe page ///////////////
+  ///////////////////////////////////////
+  */
+  .form-section {
+    width: 50%;
+  }
+
+  /* 
+  /////////////////////////////////////////
+  ////////  details page ///////////////
+  ///////////////////////////////////////
+  */
+  .details {
     width: 60%;
   }
 }
