@@ -127,7 +127,7 @@ app.delete("/home/:id", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register", { title: "Register", logged: false });
+  res.render("register", { title: "Register", logged: false, error: "" });
 });
 
 app.post("/register", async (req, res) => {
@@ -154,20 +154,58 @@ app.post("/register", async (req, res) => {
         res.redirect("/login");
       });
     });
+  } else {
+    res.render("register", {
+      title: "Register",
+      logged: false,
+      error: "Name is already taken",
+    });
   }
 });
 
 app.get("/login", (req, res) => {
-  res.render("login", { title: "Login", logged: false });
+  res.render("login", { title: "Login", logged: false, error: "" });
 });
 
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/home",
-    failureRedirect: "/login?error=true",
-  })
-);
+app.post("/login", (req, res) => {
+  // Make a new user object when logging in
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password,
+  });
+  //
+  // check if login informations is correct
+  req.login(user, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      User.findOne({ username: user.username }, function (err, foundUser) {
+        if (err) {
+          console.log(err);
+        }
+        // if (!foundUser) {
+        //   res.render("login", {
+        //     title: "Login",
+        //     logged: false,
+        //     error: "username is not found",
+        //   });
+        // }
+
+        if (foundUser) {
+          passport.authenticate("local")(req, res, function () {
+            res.redirect("/home");
+          });
+        } else {
+          res.render("login", {
+            title: "Login",
+            logged: false,
+            error: "Oops... Something went wrong",
+          });
+        }
+      });
+    }
+  });
+});
 
 app.get("/logout", (req, res) => {
   req.logout((err) => {
