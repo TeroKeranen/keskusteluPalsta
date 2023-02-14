@@ -4,12 +4,11 @@
   <body>
     <%- include('./partials/nav.ejs') %>
 
+    <h1 class="text">Forum</h1>
     <main class="post-page">
-      <h1>home</h1>
-
       <div class="posts-container">
         <% if(post.length > 0) { %> <%post.forEach(newpost => { %>
-        <article single-post>
+        <article class="single-post">
           <div class="name-date">
             <p>Created by <%= newpost.username %></p>
             <p><%= newpost.date %></p>

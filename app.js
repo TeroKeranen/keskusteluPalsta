@@ -127,7 +127,7 @@ app.delete("/home/:id", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register", { title: "Register" });
+  res.render("register", { title: "Register", logged: false });
 });
 
 app.post("/register", async (req, res) => {

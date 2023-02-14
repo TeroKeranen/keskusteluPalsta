@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 nav {
   color: rgb(2, 2, 2);
   background: rgb(253, 251, 251);
@@ -98,20 +104,36 @@ nav {
 ////////      Home page ///////////////
 ///////////////////////////////////////
 */
-.post-page {
-  border: 1px solid red;
+.text {
   text-align: center;
+  margin-top: 30px;
+}
+.post-page {
+  text-align: center;
+  margin-top: 5%;
 }
 
 .posts-container {
-  border: 1px solid red;
-  max-width: 300px;
+  display: grid;
+  grid-template-columns: 100%;
+  justify-content: center;
+  width: 60%;
+  margin: 10px auto 150px;
+}
+.single-post {
+  background-color: antiquewhite;
+  border-radius: 10px;
+  margin: 5px;
+  height: 200px;
 }
 
 .name-date {
+  width: 100%;
+  background-color: beige;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding: 1rem;
 }
 
 .post {
@@ -119,6 +141,10 @@ nav {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+}
+.post p {
+  margin: 10px 0;
 }
 
 /* 
@@ -199,5 +225,16 @@ nav {
   .information ul li {
     padding: 12px 16px;
     display: block;
+  }
+
+  /* 
+  /////////////////////////////////////////
+  ////////      Home page ///////////////
+  ///////////////////////////////////////
+  */
+  .posts-container {
+    grid-template-columns: 30% 30% 30%;
+
+    width: 60%;
   }
 }
