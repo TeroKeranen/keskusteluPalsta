@@ -89,27 +89,27 @@ app.get("/home", (req, res) => {
 });
 
 // postdetail page
-app.get("/home/:id", (req, res) => {
-  const pageId = req.params.id;
-  const userId = req.user.id;
+// app.get("/home/:id", (req, res) => {
+//   const pageId = req.params.id;
+//   const userId = req.user.id;
+// tätä käytetään ejs sivulla <a href="/home/<%= newpost._id %>">Open post</a>
+//   Post.findById(pageId)
+//     .then((result) => {
+//       let createrId = result.id; // get id at post db, this is same as user id
 
-  Post.findById(pageId)
-    .then((result) => {
-      let createrId = result.id; // get id at post db, this is same as user id
-
-      res.render("postdetail", {
-        title: "Post",
-        logged: true,
-        post: result,
-        createrId,
-        pageId,
-        userId,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+//       res.render("postdetail", {
+//         title: "Post",
+//         logged: true,
+//         post: result,
+//         createrId,
+//         pageId,
+//         userId,
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
 
 // delete your post
 app.delete("/home/:id", (req, res) => {
@@ -282,6 +282,35 @@ app.post("/update", (req, res) => {
       res.redirect("/home");
     }
   );
+});
+
+app.post("/search", (req, res) => {
+  const userSearch = req.body.search;
+
+  const userId = req.user.id;
+
+  Post.find({ title: userSearch }, (err, foundTitle) => {
+    if (err) {
+      console.log(err);
+      return;
+    } else {
+      if (foundTitle.length === 0) {
+        res.render("home", { title: "Home", logged: true, post: "" });
+      } else {
+        foundTitle.forEach((title) => {
+          let createrId = title.id; // get id at post db, this is same as user id
+
+          res.render("postdetail", {
+            title: "Post",
+            logged: true,
+            post: title,
+            createrId,
+            userId,
+          });
+        });
+      }
+    }
+  });
 });
 
 app.listen(3000, function () {

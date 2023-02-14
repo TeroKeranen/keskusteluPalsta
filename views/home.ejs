@@ -4,7 +4,15 @@
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <h1 class="text">Forum</h1>
+    <h1 class="text">
+      There is <%= post.length %> group on this site, to access a specific group
+      you need to know the group title
+    </h1>
+    <form class="search-form" action="/search" method="post">
+      <label for="search">Find a group </label>
+      <input type="text" name="search" id="search" />
+      <button type="submit">Check group</button>
+    </form>
     <main class="post-page">
       <div class="posts-container">
         <% if(post.length > 0) { %> <%post.forEach(newpost => { %>
@@ -14,15 +22,18 @@
             <p><%= newpost.date %></p>
           </div>
           <div class="post">
-            <h1><%= newpost.title %></h1>
+            <h1>hidden title</h1>
             <p><%= newpost.content.substring(0,20) + " ..." %></p>
-            <a href="/home/<%= newpost._id %>">Open post</a>
           </div>
         </article>
         <% }) %> <% } else { %>
-        <p>There is no posts</p>
+        <div class="no-posts">
+          <h1 class="no-posts">There is no posts</h1>
+        </div>
         <% } %>
       </div>
     </main>
   </body>
+
+  <script></script>
 </html>
