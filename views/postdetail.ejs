@@ -12,6 +12,7 @@
           <p><%= post.username %></p>
           <p><%= post.date %></p>
           <% if (createrId === userId) { %>
+
           <a class="delete-post" data-doc="<%= post._id %>">Delete post</a>
           <% } %>
         </div>
@@ -29,7 +30,7 @@
 
     transcan.addEventListener("click", (e) => {
       console.log("clicked");
-      const endpoint = `/home${transcan.dataset.doc}`;
+      const endpoint = `/home/${transcan.dataset.doc}`;
 
       fetch(endpoint, {
         method: "DELETE",
