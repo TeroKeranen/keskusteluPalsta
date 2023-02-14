@@ -92,6 +92,40 @@ app.get("/home", (req, res) => {
   }
 });
 
+// postdetail page
+app.get("/home/:id", (req, res) => {
+  const pageId = req.params.id;
+  const userId = req.user.id;
+
+  Post.findById(pageId)
+    .then((result) => {
+      let createrId = result.id; // get id at post db, this is same as user id
+
+      res.render("postdetail", {
+        title: "Post",
+        logged: true,
+        post: result,
+        createrId,
+        pageId,
+        userId,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// delete your post
+app.delete("/home/:id", (req, res) => {
+  const id = req.params.id; //get post id
+
+  Post.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: "/home" });
+    })
+    .catch((err) => console.log(err));
+});
+
 app.get("/register", (req, res) => {
   res.render("register", { title: "Register" });
 });

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <main class="details-main">
+      <h1>Tähän jotain</h1>
+
+      <div class="details">
+        <div class="name-date">
+          <p><%= post.username %></p>
+          <p><%= post.date %></p>
+          <% if (createrId === userId) { %>
+          <a class="delete-post" data-doc="<%= post._id %>">Delete post</a>
+          <% } %>
+        </div>
+
+        <div class="post">
+          <h1><%= post.title %></h1>
+          <p><%= post.content %></p>
+        </div>
+      </div>
+    </main>
+  </body>
+
+  <script>
+    const transcan = document.querySelector("a.delete-post");
+
+    transcan.addEventListener("click", (e) => {
+      console.log("clicked");
+      const endpoint = `/home${transcan.dataset.doc}`;
+
+      fetch(endpoint, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => (window.location.href = data.redirect))
+        .catch((err) => console.log(err));
+    });
+  </script>
+</html>

@@ -121,6 +121,15 @@ nav {
   align-items: center;
 }
 
+/* 
+///////////////////////////
+//// postdetails page /////
+//////////////////////////
+*/
+
+.delete-post {
+  cursor: pointer;
+}
 @media screen and (min-width: 785px) {
   .nav-center {
     max-width: 1170px;

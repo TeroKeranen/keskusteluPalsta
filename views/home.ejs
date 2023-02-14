@@ -16,7 +16,8 @@
           </div>
           <div class="post">
             <h1><%= newpost.title %></h1>
-            <p><%= newpost.content %></p>
+            <p><%= newpost.content.substring(0,20) + " ..." %></p>
+            <a href="/home/<%= newpost._id %>">Open post</a>
           </div>
         </article>
         <% }) %> <% } else { %>
