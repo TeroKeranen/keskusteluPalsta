@@ -137,7 +137,7 @@ app.post("/register", async (req, res) => {
   // Check if username is taken
   const nameExist = await User.exists({ username: userName });
 
-  if (!nameExist) {
+  if (!nameExist && password.length >= 5) {
     bcrypt.genSalt(10, function (err, salt) {
       if (err) return nameExist(err);
 
@@ -158,7 +158,7 @@ app.post("/register", async (req, res) => {
     res.render("register", {
       title: "Register",
       logged: false,
-      error: "Name is already taken",
+      error: "Something went wrong",
     });
   }
 });
