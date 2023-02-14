@@ -258,6 +258,27 @@ nav {
   width: 99%;
   background-color: antiquewhite;
 }
+.update-delete {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.creater-info {
+  font-size: 1rem;
+}
+.update-delete a {
+  margin: 1px;
+}
+
+.update {
+  cursor: pointer;
+  background: rgb(68, 68, 68);
+  color: white;
+  border-radius: 3px;
+  text-align: center;
+  padding: 0.5rem;
+  text-decoration: none;
+}
 .delete-post {
   cursor: pointer;
   background: rgb(68, 68, 68);
@@ -364,5 +385,8 @@ nav {
   */
   .details {
     width: 60%;
+  }
+  .creater-info {
+    font-size: 1.5rem;
   }
 }

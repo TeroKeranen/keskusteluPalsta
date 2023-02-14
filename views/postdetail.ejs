@@ -7,20 +7,26 @@
     <main class="details-main">
       <div class="details">
         <div class="name-date">
-          <p>Created by <%= post.username %></p>
-          <p><%= post.date %></p>
+          <div class="creater-info">
+            <p>Created by <%= post.username %></p>
+            <p><%= post.date %></p>
+          </div>
           <% if (createrId === userId) { %>
 
-          <a class="delete-post" data-doc="<%= post._id %>">Delete post</a>
+          <div class="update-delete">
+            <a class="delete-post" data-doc="<%= post._id %>"
+              ><i class="fa-solid fa-trash"></i
+            ></a>
 
-          <a
-            class="update"
-            id="update"
-            href="/update/<%=post._id%>"
-            name="update"
-            value="<%=post._id%>"
-            >update</a
-          >
+            <a
+              class="update"
+              id="update"
+              href="/update/<%=post._id%>"
+              name="update"
+              value="<%=post._id%>"
+              ><i class="fa-solid fa-pen-nib"></i
+            ></a>
+          </div>
 
           <% } %>
         </div>

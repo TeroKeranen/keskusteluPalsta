@@ -1,7 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv").config();
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+const connectDB = require("./db/connect");
 const localStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const passport = require("passport");
@@ -14,13 +15,8 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// Mongoose db
-const dbUser = process.env.MONGODB_URI;
-//Mongoose connect
-mongoose
-  .connect(dbUser, { useNewUrlParser: true })
-  .then((result) => console.log("connected to database"))
-  .catch((err) => console.log(err));
+// connect to database
+connectDB(process.env.MONGODB_URI);
 
 app.use(
   session({
