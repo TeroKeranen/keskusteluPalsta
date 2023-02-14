@@ -249,6 +249,45 @@ app.post("/createpost", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+// open post you want to update
+app.get("/update/:id", (req, res) => {
+  const pageId = req.params.id;
+  const userId = req.user.id;
+
+  Post.findById(pageId)
+    .then((result) => {
+      let createrId = result.id; // get id at post db, this is same as user id
+
+      res.render("update", {
+        title: "Update",
+        logged: true,
+        post: result,
+        createrId,
+        pageId,
+        userId,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post("/update", (req, res) => {
+  const postId = req.body.postId; //get post id
+  const update = { title: req.body.title, content: req.body.body }; // the new data to set
+
+  // Find the document with the specified ID and update it
+  Post.findOneAndUpdate(
+    { _id: postId },
+    update,
+    { new: true },
+    function (err, doc) {
+      if (err) throw err;
+      res.redirect("/home");
+    }
+  );
+});
+
 app.listen(3000, function () {
   console.log("server start on port 3000");
 });

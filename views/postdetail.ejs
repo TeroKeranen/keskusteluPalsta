@@ -12,6 +12,16 @@
           <% if (createrId === userId) { %>
 
           <a class="delete-post" data-doc="<%= post._id %>">Delete post</a>
+
+          <a
+            class="update"
+            id="update"
+            href="/update/<%=post._id%>"
+            name="update"
+            value="<%=post._id%>"
+            >update</a
+          >
+
           <% } %>
         </div>
 

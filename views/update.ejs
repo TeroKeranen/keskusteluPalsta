@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <main>
+      <section class="create-content">
+        <h1>Here you can create a new post</h1>
+      </section>
+
+      <div class="form-container">
+        <form action="/update" method="post">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" value="<%=post.title%>" />
+          <input
+            type="hidden"
+            id="postId"
+            name="postId"
+            value="<%=post._id%>"
+          />
+
+          <label for="body">content</label>
+          <textarea name="body" id="nody" cols="30" rows="10">
+                <%=post.content%></textarea
+          >
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
