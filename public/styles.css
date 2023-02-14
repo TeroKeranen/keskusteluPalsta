@@ -93,6 +93,34 @@ nav {
   padding: 0rem;
 }
 
+/* 
+/////////////////////////////////////////
+////////      Home page ///////////////
+///////////////////////////////////////
+*/
+.post-page {
+  border: 1px solid red;
+  text-align: center;
+}
+
+.posts-container {
+  border: 1px solid red;
+  max-width: 300px;
+}
+
+.name-date {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (min-width: 785px) {
   .nav-center {
     max-width: 1170px;

@@ -4,15 +4,25 @@
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <h1>home</h1>
+    <main class="post-page">
+      <h1>home</h1>
 
-    <% if(post.length > 0) { %> <% post.forEach(newpost => { %>
-    <p>created by <%= newpost.username %></p>
-    <p>created <%= newpost.date %></p>
-    <h1><%= newpost.title %></h1>
-    <p><%= newpost.content %></p>
-    <%}) %> <% } else { %>
-    <p>no any post</p>
-    <%} %>
+      <div class="posts-container">
+        <% if(post.length > 0) { %> <%post.forEach(newpost => { %>
+        <article single-post>
+          <div class="name-date">
+            <p>Created by <%= newpost.username %></p>
+            <p><%= newpost.date %></p>
+          </div>
+          <div class="post">
+            <h1><%= newpost.title %></h1>
+            <p><%= newpost.content %></p>
+          </div>
+        </article>
+        <% }) %> <% } else { %>
+        <p>There is no posts</p>
+        <% } %>
+      </div>
+    </main>
   </body>
 </html>

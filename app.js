@@ -77,10 +77,11 @@ app.get("/", (req, res) => {
 app.get("/home", (req, res) => {
   // check if user is logged in
   const isLogged = req.isAuthenticated();
-
+  // if there is no user it goes to index page
   if (!isLogged) {
     res.redirect("/");
   } else {
+    // find all post and post them to home page
     Post.find()
       .then((result) => {
         res.render("home", { title: "Home", logged: true, post: result });
