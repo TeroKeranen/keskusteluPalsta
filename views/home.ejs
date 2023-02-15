@@ -4,33 +4,18 @@
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <h1 class="text">
-      There is <%= post.length %> group on this site, to access a specific group
-      you need to know the group title
-    </h1>
-    <form class="search-form" action="/search" method="post">
-      <label for="search">Find a group </label>
-      <input type="text" name="search" id="search" />
-      <button type="submit">Check group</button>
-    </form>
-    <main class="post-page">
-      <div class="posts-container">
-        <% if(post.length > 0) { %> <%post.forEach(newpost => { %>
-        <article class="single-post">
-          <div class="name-date">
-            <p>Created by <%= newpost.username %></p>
-            <p><%= newpost.date %></p>
-          </div>
-          <div class="post">
-            <h1>hidden title</h1>
-            <p><%= newpost.content.substring(0,20) + " ..." %></p>
-          </div>
-        </article>
-        <% }) %> <% } else { %>
-        <div class="no-posts">
-          <h1 class="no-posts">There is no posts</h1>
-        </div>
-        <% } %>
+    <main>
+      <h1 class="text">
+        To access a specific group you need to know the group title
+      </h1>
+
+      <div class="search-form-container">
+        <h1 class="error-message"><%= error %></h1>
+        <h3>find a group</h3>
+        <form class="search-form" action="/search" method="post">
+          <input type="text" name="search" id="search" />
+          <button type="submit">Check group</button>
+        </form>
       </div>
     </main>
   </body>

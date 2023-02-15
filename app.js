@@ -80,7 +80,11 @@ app.get("/home", (req, res) => {
     // find all post and post them to home page
     Post.find()
       .then((result) => {
-        res.render("home", { title: "Home", logged: true, post: result });
+        res.render("home", {
+          title: "Home",
+          logged: true,
+          error: "",
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -196,7 +200,7 @@ app.get("/createpost", (req, res) => {
   if (!isLogged) {
     res.redirect("/");
   } else {
-    res.render("createpost", { title: "Create", logged: true });
+    res.render("createpost", { title: "Create", logged: true, error: "" });
   }
 });
 
@@ -272,18 +276,17 @@ app.post("/search", (req, res) => {
       return;
     } else {
       if (foundTitle.length === 0) {
-        res.render("home", { title: "Home", logged: true, post: "" });
+        res.render("home", {
+          title: "Home",
+          logged: true,
+          error: "There is no such a group",
+        });
       } else {
-        foundTitle.forEach((title) => {
-          let createrId = title.id; // get id at post db, this is same as user id
-          console.log(title._id);
-          res.render(`searchPage`, {
-            title: "Post",
-            logged: true,
-            post: title,
-            createrId,
-            userId,
-          });
+        res.render("searchPage", {
+          title: "Post",
+          logged: true,
+          post: foundTitle,
+          userId,
         });
       }
     }

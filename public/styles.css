@@ -159,9 +159,11 @@ nav {
   margin: 0 auto;
 }
 .text {
+  margin: 0 auto;
   text-align: center;
   margin-top: 30px;
   color: white;
+  width: 90%;
 }
 .post-page {
   text-align: center;
@@ -173,7 +175,6 @@ nav {
   grid-template-columns: 100%;
   justify-content: center;
   width: 60%;
-  margin: 10px auto 150px;
 }
 .single-post {
   border-radius: 10px;
@@ -205,6 +206,20 @@ nav {
 }
 .post a {
   text-decoration: none;
+}
+
+.search-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  color: white;
+}
+.search-form-container button {
+  margin-top: 10px;
+  color: white;
+  background-color: rgb(54, 54, 54);
 }
 
 /* 
