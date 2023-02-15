@@ -300,6 +300,7 @@ app.get("/secret", (req, res) => {
 app.get("/secret/:id", (req, res) => {
   const id = req.params.id;
   const userId = req.user.id;
+  const user = req.user.username;
 
   Post.find({ _id: id }, (err, foundTitle) => {
     if (err) {
@@ -311,13 +312,14 @@ app.get("/secret/:id", (req, res) => {
       } else {
         foundTitle.forEach((title) => {
           let createrId = title.id; // get id at post db, this is same as user id
-          console.log(title._id);
+
           res.render(`secret`, {
             title: "Post",
             logged: true,
             post: title,
             createrId,
             userId,
+            user,
           });
         });
       }
@@ -359,7 +361,20 @@ app.post("/comment/:id", (req, res) => {
     }
   );
 });
+app.post("/delComment", (req, res) => {
+  let commentID = req.body.deleteComment;
+  let id = req.body.postId;
 
+  Post.findOneAndUpdate(
+    { _id: id },
+    { $pull: { comments: { _id: commentID } } },
+    (err, post) => {
+      if (err) return res.status(400).send(err);
+      console.log(post.comments);
+      res.redirect("/secret/" + id);
+    }
+  );
+});
 app.listen(3000, function () {
   console.log("server start on port 3000");
 });
