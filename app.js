@@ -88,29 +88,6 @@ app.get("/home", (req, res) => {
   }
 });
 
-// postdetail page
-// app.get("/home/:id", (req, res) => {
-//   const pageId = req.params.id;
-//   const userId = req.user.id;
-// tätä käytetään ejs sivulla <a href="/home/<%= newpost._id %>">Open post</a>
-//   Post.findById(pageId)
-//     .then((result) => {
-//       let createrId = result.id; // get id at post db, this is same as user id
-
-//       res.render("postdetail", {
-//         title: "Post",
-//         logged: true,
-//         post: result,
-//         createrId,
-//         pageId,
-//         userId,
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
 // delete your post
 app.delete("/home/:id", (req, res) => {
   const id = req.params.id; //get post id
@@ -299,8 +276,8 @@ app.post("/search", (req, res) => {
       } else {
         foundTitle.forEach((title) => {
           let createrId = title.id; // get id at post db, this is same as user id
-
-          res.render("postdetail", {
+          console.log(title._id);
+          res.render(`searchPage`, {
             title: "Post",
             logged: true,
             post: title,
@@ -311,6 +288,73 @@ app.post("/search", (req, res) => {
       }
     }
   });
+});
+/////////////////////// tähän jäin
+
+app.get("/secret", (req, res) => {
+  res.render("secret");
+});
+app.get("/secret/:id", (req, res) => {
+  const id = req.params.id;
+  const userId = req.user.id;
+
+  Post.find({ _id: id }, (err, foundTitle) => {
+    if (err) {
+      console.log(err);
+      return;
+    } else {
+      if (foundTitle.length === 0) {
+        res.render("home", { title: "Home", logged: true, post: "" });
+      } else {
+        foundTitle.forEach((title) => {
+          let createrId = title.id; // get id at post db, this is same as user id
+          console.log(title._id);
+          res.render(`secret`, {
+            title: "Post",
+            logged: true,
+            post: title,
+            createrId,
+            userId,
+          });
+        });
+      }
+    }
+  });
+});
+
+app.get("/searchPage", (req, res) => {
+  res.render("searchPage", { title: "Searchpage", logged: true });
+});
+
+app.get("/search/:id", (req, res) => {
+  res.send(`This is the page for post ${req.params.id}`);
+});
+app.post("/comment/:id", (req, res) => {
+  const user = req.user.username; // Get username
+  const userComment = req.body.comment; // Get comment that user post
+  const id = req.params.id;
+  const commentDate = getDate(); // get date when comment posted
+  const postId = req.params.id; // get ID of post from URL
+
+  Post.updateOne(
+    { _id: id },
+    {
+      $push: {
+        comments: {
+          comment: userComment,
+          user: user,
+          commentDate: commentDate,
+        },
+      },
+    },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/secret/" + id);
+      }
+    }
+  );
 });
 
 app.listen(3000, function () {

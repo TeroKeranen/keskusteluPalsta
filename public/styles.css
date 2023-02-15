@@ -250,7 +250,7 @@ nav {
 
 /* 
 ///////////////////////////
-//// postdetails page /////
+//// secret page /////
 //////////////////////////
 */
 .details-main {
@@ -258,7 +258,7 @@ nav {
 }
 .details {
   margin: 0 auto;
-  width: 80%;
+  width: 90%;
   background-color: antiquewhite;
 }
 .update-delete {
@@ -290,6 +290,53 @@ nav {
   text-align: center;
   padding: 0.5rem;
 }
+
+.comment-container {
+  color: white;
+  width: 20%;
+  margin: 0 auto;
+}
+.comment-container form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.comments-container {
+  width: 70%;
+  margin: 0 auto;
+}
+.comment-container button {
+  margin-top: 10px;
+  color: white;
+  background-color: rgb(54, 54, 54);
+  padding: 0.5rem;
+}
+.comment-h1 {
+  text-align: center;
+  margin: 20px 0;
+  color: white;
+}
+.comments {
+  margin: 10px 0;
+}
+
+.user-comment-info {
+  background-color: rgb(49, 49, 47);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 1.1rem;
+}
+.commentt {
+  background-color: rgb(245, 242, 237);
+  padding: 1rem;
+  word-wrap: break-word;
+  font-size: 1.3rem;
+}
+
 @media screen and (min-width: 785px) {
   .nav-center {
     max-width: 1170px;
@@ -393,7 +440,7 @@ nav {
 
   /* 
   /////////////////////////////////////////
-  ////////  details page ///////////////
+  ////////  secret page ///////////////
   ///////////////////////////////////////
   */
   .details {
@@ -401,5 +448,16 @@ nav {
   }
   .creater-info {
     font-size: 1.5rem;
+  }
+  .comments-container {
+    width: 30%;
+  }
+  .comment-container button {
+    margin-top: 10px;
+    width: 20%;
+    color: white;
+    background-color: rgb(54, 54, 54);
+    padding: 0.5rem;
+    margin: 4px auto;
   }
 }

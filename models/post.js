@@ -24,6 +24,8 @@ const postSchema = new Schema(
     comments: [
       {
         comment: [{ type: String }],
+        user: String,
+        commentDate: String,
       },
     ],
   },
