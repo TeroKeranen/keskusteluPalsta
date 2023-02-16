@@ -59,6 +59,7 @@ passport.use(
   })
 );
 
+// render to index page
 app.get("/", (req, res) => {
   // Check if user is logged in
   const isLogged = req.isAuthenticated();
@@ -70,6 +71,7 @@ app.get("/", (req, res) => {
   }
 });
 
+// render home page
 app.get("/home", (req, res) => {
   // check if user is logged in
   const isLogged = req.isAuthenticated();
@@ -102,18 +104,19 @@ app.delete("/home/:id", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-
+// render to register page
 app.get("/register", (req, res) => {
   res.render("register", { title: "Register", logged: false, error: "" });
 });
 
+// register your username
 app.post("/register", async (req, res) => {
-  const userName = req.body.username;
-  const password = req.body.password;
+  const userName = req.body.username; // get username
+  const password = req.body.password; // get password
 
   // Check if username is taken
   const nameExist = await User.exists({ username: userName });
-
+  // if username is not taken and password is 5 or more character long it will register
   if (!nameExist && password.length >= 5) {
     bcrypt.genSalt(10, function (err, salt) {
       if (err) return nameExist(err);
@@ -139,11 +142,11 @@ app.post("/register", async (req, res) => {
     });
   }
 });
-
+// render to login page
 app.get("/login", (req, res) => {
   res.render("login", { title: "Login", logged: false, error: "" });
 });
-
+// login in
 app.post("/login", (req, res) => {
   // Make a new user object when logging in
   const user = new User({
@@ -156,17 +159,11 @@ app.post("/login", (req, res) => {
     if (err) {
       console.log(err);
     } else {
+      // find user from database and if its founded and password is correct it will log in
       User.findOne({ username: user.username }, function (err, foundUser) {
         if (err) {
           console.log(err);
         }
-        // if (!foundUser) {
-        //   res.render("login", {
-        //     title: "Login",
-        //     logged: false,
-        //     error: "username is not found",
-        //   });
-        // }
 
         if (foundUser) {
           passport.authenticate("local")(req, res, function () {
@@ -183,7 +180,7 @@ app.post("/login", (req, res) => {
     }
   });
 });
-
+// logout
 app.get("/logout", (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -192,7 +189,7 @@ app.get("/logout", (req, res) => {
   });
   res.redirect("/");
 });
-
+// create new post on createpost.ejs
 app.get("/createpost", (req, res) => {
   // check if user is logged in
   const isLogged = req.isAuthenticated();
@@ -203,7 +200,7 @@ app.get("/createpost", (req, res) => {
     res.render("createpost", { title: "Create", logged: true, error: "" });
   }
 });
-
+// post a secret message
 app.post("/createpost", (req, res) => {
   const postTitle = req.body.title; // get post title
   const postContent = req.body.body; // get post content
@@ -226,7 +223,7 @@ app.post("/createpost", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-// open post you want to update
+// This render to update.ejs where you can update your message
 app.get("/update/:id", (req, res) => {
   const pageId = req.params.id;
   const userId = req.user.id;
@@ -248,7 +245,7 @@ app.get("/update/:id", (req, res) => {
       console.log(err);
     });
 });
-
+// post your updated secret message
 app.post("/update", (req, res) => {
   const postId = req.body.postId; //get post id
   const update = { title: req.body.title, content: req.body.body }; // the new data to set
@@ -265,11 +262,13 @@ app.post("/update", (req, res) => {
   );
 });
 
+// search secret messages on home.ejs
 app.post("/search", (req, res) => {
-  const userSearch = req.body.search;
+  const userSearch = req.body.search; // get input
 
-  const userId = req.user.id;
+  const userId = req.user.id; // get logged user id
 
+  // Check if userSearch input title is exist on post database, if there is it will render you on searchPage.
   Post.find({ title: userSearch }, (err, foundTitle) => {
     if (err) {
       console.log(err);
@@ -292,15 +291,12 @@ app.post("/search", (req, res) => {
     }
   });
 });
-/////////////////////// tähän jäin
 
-app.get("/secret", (req, res) => {
-  res.render("secret");
-});
+// This is on searchPage.ejs and it will open secret message on secret.ejs
 app.get("/secret/:id", (req, res) => {
-  const id = req.params.id;
-  const userId = req.user.id;
-  const user = req.user.username;
+  const id = req.params.id; // get post id
+  const userId = req.user.id; // get logged user id
+  const user = req.user.username; // get logged user username
 
   Post.find({ _id: id }, (err, foundTitle) => {
     if (err) {
@@ -327,13 +323,7 @@ app.get("/secret/:id", (req, res) => {
   });
 });
 
-app.get("/searchPage", (req, res) => {
-  res.render("searchPage", { title: "Searchpage", logged: true });
-});
-
-app.get("/search/:id", (req, res) => {
-  res.send(`This is the page for post ${req.params.id}`);
-});
+// Post a comment on secret.ejs
 app.post("/comment/:id", (req, res) => {
   const user = req.user.username; // Get username
   const userComment = req.body.comment; // Get comment that user post
@@ -361,10 +351,13 @@ app.post("/comment/:id", (req, res) => {
     }
   );
 });
-app.post("/delComment", (req, res) => {
-  let commentID = req.body.deleteComment;
-  let id = req.body.postId;
 
+// Delete comment on secret.ejs
+app.post("/delComment", (req, res) => {
+  let commentID = req.body.deleteComment; // get comment id
+  let id = req.body.postId; // get secret message id
+
+  // find secret message from database and update comments section (delete comment)
   Post.findOneAndUpdate(
     { _id: id },
     { $pull: { comments: { _id: commentID } } },
@@ -375,6 +368,8 @@ app.post("/delComment", (req, res) => {
     }
   );
 });
-app.listen(3000, function () {
-  console.log("server start on port 3000");
+
+const port = process.env.PORT || 5000;
+app.listen(port, function () {
+  console.log(`Server started on port ${port}`);
 });
