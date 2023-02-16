@@ -146,6 +146,10 @@ app.post("/register", async (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login", { title: "Login", logged: false, error: "" });
 });
+
+app.get("/loginfail", (req, res) => {
+  res.render("loginfail", { title: "loginfail", logged: false });
+});
 // login in
 app.post("/login", (req, res) => {
   // Make a new user object when logging in
@@ -155,30 +159,45 @@ app.post("/login", (req, res) => {
   });
   //
   // check if login informations is correct
-  req.login(user, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      // find user from database and if its founded and password is correct it will log in
-      User.findOne({ username: user.username }, function (err, foundUser) {
-        if (err) {
-          console.log(err);
-        }
+  try {
+    req.login(user, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        // find user from database and if its founded and password is correct it will log in
+        User.findOne({ username: user.username }, function (err, foundUser) {
+          if (err) {
+            console.log(err);
+          }
 
-        if (foundUser) {
-          passport.authenticate("local")(req, res, function () {
-            res.redirect("/home");
-          });
-        } else {
-          res.render("login", {
-            title: "Login",
-            logged: false,
-            error: "Oops... Something went wrong",
-          });
-        }
+          // if username is correct but password fail it wil render you to loginfail.ejs
+          if (foundUser) {
+            passport.authenticate("local", { failureRedirect: "/loginfail" })(
+              req,
+              res,
+              function () {
+                res.redirect("/home");
+              }
+            );
+          } else {
+            res.render("login", {
+              title: "Login",
+              logged: false,
+              error: "Oops... Something went wrong",
+            });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    if (error) {
+      res.render("login", {
+        title: "Login",
+        logged: false,
+        error: "Oops... Something went wrong",
       });
     }
-  });
+  }
 });
 // logout
 app.get("/logout", (req, res) => {
