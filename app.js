@@ -370,7 +370,7 @@ app.post("/delComment", (req, res) => {
     { $pull: { comments: { _id: commentID } } },
     (err, post) => {
       if (err) return res.status(400).send(err);
-      console.log(post.comments);
+
       res.redirect("/secret/" + id);
     }
   );
