@@ -15,7 +15,9 @@
           <div class="post">
             <h1><%=item.title %></h1>
             <p><%= item.content.substring(0,20) + " ..." %></p>
-            <a href="/secret/<%= item._id %>">Read more</a>
+            <div class="search-url">
+              <a href="/secret/<%= item._id %>">Read more</a>
+            </div>
           </div>
         </article>
         <%}) %>

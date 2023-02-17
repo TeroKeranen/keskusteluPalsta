@@ -210,20 +210,30 @@ nav {
 }
 
 .post {
-  text-align: left;
   background-color: rgb(245, 242, 237);
   color: black;
-
+  text-align: left;
   padding: 1rem;
 }
 .post p {
   margin: 10px 0;
   width: 80%;
 }
-.post a {
-  text-decoration: none;
+.search-url {
+  text-align: right;
 }
 
+.search-url a {
+  margin-top: 10px;
+  color: white;
+  background-color: rgb(54, 54, 54);
+  padding: 0.3rem;
+  text-decoration: none;
+}
+.search-url a:hover {
+  background-color: white;
+  color: rgb(54, 54, 54);
+}
 .search-form-container {
   display: flex;
   flex-direction: column;
@@ -367,6 +377,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   font-size: 1.1rem;
 }
 .commentt {
@@ -380,10 +391,17 @@ nav {
   background-color: rgb(236, 234, 234);
   padding: 0.2rem;
 } */
+.delete-comment {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 10px;
+}
 .del-btn {
   background: none;
   border: none;
   cursor: pointer;
+  margin-right: 15px;
 }
 .del-btn i {
   color: white;
