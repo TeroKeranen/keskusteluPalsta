@@ -37,6 +37,4 @@ These are additional requirements, and you may choose to implement all, none, or
 
 ## Running the application
 
-Include instructions for running your application locally in this section. You may additonally include a link to the application instance if you have hosted it somewhere.
-
-If the local setup is complicated or has a lot of dependencies, and you are unable to provide a hosted version, a containerized (e.g. Docker/Docker Compose or similar) way of running your application would be greatly appreciated, but is not required.
+https://frozen-hollows-26368.herokuapp.com/
