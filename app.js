@@ -389,7 +389,7 @@ app.post("/delComment", (req, res) => {
     }
   );
 });
-
+// update comment option on secret.ejs line ----> 65
 app.post("/updComment/:id", (req, res) => {
   const postId = req.body.postId; // get post id
   const commentId = req.body.updateCommentId; // get comment id
@@ -418,14 +418,13 @@ app.post("/updComment/:id", (req, res) => {
   });
 });
 
+// post updated comment on commentUpdate.ejs
 app.post("/updateComment", (req, res) => {
   const postId = req.body.postId; //get post id
   const commentId = req.body.commentId; //get post id
   const newComment = req.body.body;
-  const index = 2;
-  const update = { title: req.body.title, content: req.body.body }; // the new data to set
-  console.log(newComment);
 
+  // first find post comment using commentId, then update comment that have same _id as commendId with newcomment
   Post.updateOne(
     { _id: postId, "comments._id": commentId },
     { $set: { "comments.$.comment": newComment } },
