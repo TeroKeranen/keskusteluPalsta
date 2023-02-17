@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv").config();
+
 // const mongoose = require("mongoose");
 const connectDB = require("./db/connect");
 const localStrategy = require("passport-local").Strategy;
@@ -157,6 +158,7 @@ app.post("/login", (req, res) => {
     username: req.body.username,
     password: req.body.password,
   });
+
   //
   // check if login informations is correct
   try {
@@ -388,6 +390,54 @@ app.post("/delComment", (req, res) => {
   );
 });
 
+app.post("/updComment/:id", (req, res) => {
+  const postId = req.body.postId; // get post id
+  const commentId = req.body.updateCommentId; // get comment id
+  const userId = req.user.id; // get logged user id
+
+  Post.find({ _id: postId }, (err, foundTitle) => {
+    if (err) {
+      console.log(err);
+      return;
+    } else {
+      if (foundTitle.length === 0) {
+        res.render("home", { title: "Home", logged: true, post: "" });
+      } else {
+        foundTitle.forEach((title) => {
+          res.render(`commentUpdate`, {
+            title: "Post",
+            logged: true,
+            post: title.comments,
+            commentId,
+            userId,
+            postId,
+          });
+        });
+      }
+    }
+  });
+});
+
+app.post("/updateComment", (req, res) => {
+  const postId = req.body.postId; //get post id
+  const commentId = req.body.commentId; //get post id
+  const newComment = req.body.body;
+  const index = 2;
+  const update = { title: req.body.title, content: req.body.body }; // the new data to set
+  console.log(newComment);
+
+  Post.updateOne(
+    { _id: postId, "comments._id": commentId },
+    { $set: { "comments.$.comment": newComment } },
+    function (err, result) {
+      if (err) {
+        console.error(`hitto ${err}`);
+      } else {
+        res.redirect("/secret/" + postId);
+      }
+    }
+  );
+});
 const port = process.env.PORT || 5000;
 app.listen(port, function () {
   console.log(`Server started on port ${port}`);
