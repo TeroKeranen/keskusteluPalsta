@@ -118,6 +118,13 @@ app.post("/register", async (req, res) => {
   // Check if username is taken
   const nameExist = await User.exists({ username: userName });
   // if username is not taken and password is 5 or more character long it will register
+  if (!nameExist && password.length < 5) {
+    res.render("register", {
+      title: "Register",
+      logged: false,
+      error: "the password must be at least 5 characters long",
+    });
+  }
   if (!nameExist && password.length >= 5) {
     bcrypt.genSalt(10, function (err, salt) {
       if (err) return nameExist(err);
