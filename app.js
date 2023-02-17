@@ -174,13 +174,9 @@ app.post("/login", (req, res) => {
 
           // if username is correct but password fail it wil render you to loginfail.ejs
           if (foundUser) {
-            passport.authenticate("local", { failureRedirect: "/loginfail" })(
-              req,
-              res,
-              function () {
-                res.redirect("/home");
-              }
-            );
+            passport.authenticate("local", { failureRedirect: "/loginfail" })(req, res, function () {
+              res.redirect("/home");
+            });
           } else {
             res.render("login", {
               title: "Login",
@@ -272,15 +268,10 @@ app.post("/update", (req, res) => {
   const update = { title: req.body.title, content: req.body.body }; // the new data to set
 
   // Find the document with the specified ID and update it
-  Post.findOneAndUpdate(
-    { _id: postId },
-    update,
-    { new: true },
-    function (err, doc) {
-      if (err) throw err;
-      res.redirect("/home");
-    }
-  );
+  Post.findOneAndUpdate({ _id: postId }, update, { new: true }, function (err, doc) {
+    if (err) throw err;
+    res.redirect("/home");
+  });
 });
 
 // search secret messages on home.ejs
@@ -379,15 +370,11 @@ app.post("/delComment", (req, res) => {
   let id = req.body.postId; // get secret message id
 
   // find secret message from database and update comments section (delete comment)
-  Post.findOneAndUpdate(
-    { _id: id },
-    { $pull: { comments: { _id: commentID } } },
-    (err, post) => {
-      if (err) return res.status(400).send(err);
+  Post.findOneAndUpdate({ _id: id }, { $pull: { comments: { _id: commentID } } }, (err, post) => {
+    if (err) return res.status(400).send(err);
 
-      res.redirect("/secret/" + id);
-    }
-  );
+    res.redirect("/secret/" + id);
+  });
 });
 // update comment option on secret.ejs line ----> 65
 app.post("/updComment/:id", (req, res) => {
@@ -425,17 +412,13 @@ app.post("/updateComment", (req, res) => {
   const newComment = req.body.body;
 
   // first find post comment using commentId, then update comment that have same _id as commendId with newcomment
-  Post.updateOne(
-    { _id: postId, "comments._id": commentId },
-    { $set: { "comments.$.comment": newComment } },
-    function (err, result) {
-      if (err) {
-        console.error(`hitto ${err}`);
-      } else {
-        res.redirect("/secret/" + postId);
-      }
+  Post.updateOne({ _id: postId, "comments._id": commentId }, { $set: { "comments.$.comment": newComment } }, function (err, result) {
+    if (err) {
+      console.error(`hitto ${err}`);
+    } else {
+      res.redirect("/secret/" + postId);
     }
-  );
+  });
 });
 const port = process.env.PORT || 5000;
 app.listen(port, function () {

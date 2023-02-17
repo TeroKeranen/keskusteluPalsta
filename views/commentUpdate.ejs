@@ -15,9 +15,7 @@
           <input type="hidden" name="postId" value="<%=postId%>" />
           <input type="hidden" name="commentId" value="<%=commentId%>" />
           <%post.find(element=> { %> <% if (element._id == commentId) {%>
-          <textarea name="body" id="" cols="30" rows="10">
-<%= element.comment %></textarea
-          >
+          <textarea name="body" id="" cols="30" rows="10"><%= element.comment %></textarea>
           <%} else { %> <%}%> <%})%>
           <button type="submit">Submit</button>
         </form>
